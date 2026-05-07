@@ -1,16 +1,82 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+# README — Blog Author (Author Frontend)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```md
+# Blog Author Dashboard
 
-## React Compiler
+A blog management dashboard built with React and Vite that connects to the Blog API backend.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This frontend is designed for authors and administrators to create, edit, publish, and manage blog content.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- React
+- Vite
+- React Router
+- CSS Modules / Custom CSS
+- Blog API Backend
+- JWT Authentication
+
+---
+
+## Features
+
+### Authentication
+
+- Secure author login
+- Protected dashboard routes
+- Role-based access control
+
+> Accounts are created from the reader frontend during signup.
+
+---
+
+## Blog Management
+
+- Create new blog posts
+- Edit existing posts
+- Delete blog posts
+- Publish or unpublish posts
+- View all authored posts
+
+---
+
+## Comment Moderation
+
+- View comments on posts
+- Delete inappropriate comments
+- Manage blog discussions
+
+---
+
+## Dashboard Features
+
+- Responsive dashboard UI
+- Blog management interface
+- Protected admin functionality
+- Real-time API integration
+
+---
+
+## Backend Integration
+
+This frontend connects to the shared Blog API backend which handles:
+
+- Authentication
+- Authorization
+- Database operations
+- Blog storage
+- Comment management
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone <your-repository-url>
