@@ -1,10 +1,5 @@
 
----
-
-# README — Blog Author (Author Frontend)
-
-
-# Blog Author Dashboard
+# Blog Author Dashboard (Author Frontend)
 
 A blog management dashboard built with React and Vite that connects to the Blog API backend.
 
