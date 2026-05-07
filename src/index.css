@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Playwrite+DK+Uloopet+Guides&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  font-family: "Pacifico", cursive;
+}
+
+.light {
+  --bg: #f9fafb;
+  --s-bg: #ffffff;
+
+  --text: #111827;
+  --s-text: #6b7280;
+
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+
+  --border: #e5e7eb;
+  --success: #16a34a;
+  --danger: #dc2626;
+}
+
+.dark {
+  --bg: #0f172a;
+  --s-bg: #1e293b;
+
+  --text: #f1f5f9;
+  --s-text: #94a3b8;
+
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+
+  --border: #334155;
+  --success: #22c55e;
+  --danger: #ef4444;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--tex);
+  line-height: 1.5;
+}

@@ -1,0 +1,111 @@
+.container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.error {
+  color: #ff4d4d;
+  font-size: 14px;
+}
+
+.loading {
+  font-size: 14px;
+  opacity: 0.7;
+}
+button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 14px;
+
+  background: var(--accent);
+  color: white;
+
+  border: none;
+  border-radius: 10px;
+
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+.card {
+  padding: 15px;
+  border-radius: 12px;
+
+  background: var(--bg);
+  border: 1px solid var(--border);
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  transition: 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+}
+.card h3 {
+  font-size: 14px;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.card p {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+.tableWrapper {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+thead {
+  background: var(--s-bg);
+}
+
+th {
+  text-align: left;
+  padding: 12px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+td {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+tr:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+td button {
+  padding: 6px 10px;
+  font-size: 12px;
+
+  border-radius: 8px;
+
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+td button:hover {
+  background: var(--s-bg);
+}

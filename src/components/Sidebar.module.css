@@ -1,0 +1,45 @@
+button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+  color: var(--text);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+button:hover {
+  background: var(--bg);
+  transform: translateX(3px);
+}
+.active {
+  background: var(--accent);
+  color: white;
+}
+button svg {
+  width: 18px;
+  height: 18px;
+}
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+
+  padding: 20px 15px;
+  height: 100vh;
+
+  background: var(--s-bg);
+  border-right: 1px solid var(--border);
+}
+.sidebar button + button {
+  margin-top: 2px;
+}
