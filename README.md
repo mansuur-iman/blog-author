@@ -3,7 +3,7 @@
 
 # README — Blog Author (Author Frontend)
 
-```md
+
 # Blog Author Dashboard
 
 A blog management dashboard built with React and Vite that connects to the Blog API backend.
