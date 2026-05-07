@@ -74,4 +74,9 @@ This frontend connects to the shared Blog API backend which handles:
 Clone the repository:
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/mansuur-iman/blog-author.git
+
+cd blog-author
+
+npm install
+npm run dev
