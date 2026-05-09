@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from "react-router";
+
 import {
   LayoutDashboard,
   StickyNote,
@@ -6,6 +7,7 @@ import {
   Moon,
   Sun,
   X,
+  Feather,
 } from "lucide-react";
 import styles from "./Sidebar.module.css";
 import useTheme from "./context/useTheme";
@@ -32,7 +34,7 @@ export default function Sidebar({ className, drawerOpen, onClose }) {
     >
       {/* Brand */}
       <div className={styles.brand}>
-        <span className={styles.brandIcon}>✦</span>
+        <Feather size={36} className={styles.brandIcon} />
         <span className={styles.brandName}>Blog.author</span>
         <button
           type="button"

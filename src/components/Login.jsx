@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "./context/useAuth";
 import { useNavigate } from "react-router";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Feather } from "lucide-react";
 import styles from "./Login.module.css";
 
 const validate = (email, password) => {
@@ -80,7 +80,7 @@ export default function Login() {
       {/* Left decorative panel */}
       <div className={styles.panel} aria-hidden="true">
         <div className={styles.panelInner}>
-          <span className={styles.panelIcon}>✦</span>
+          <Feather size={36} className={styles.panelIcon} />
           <h2 className={styles.panelTitle}>Blog.author</h2>
           <p className={styles.panelSub}>Your words. Your platform.</p>
           <div className={styles.panelDots}>
