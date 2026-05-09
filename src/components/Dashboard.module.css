@@ -142,33 +142,6 @@
   font-size: 14px;
 }
 
-/* ── View Button ───────────────────────────────── */
-.viewBtn {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 12px;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: inherit;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  cursor: pointer;
-  transition:
-    background 0.15s,
-    transform 0.1s;
-}
-
-.viewBtn:hover {
-  background: var(--bg);
-  transform: translateY(-1px);
-}
-
-.viewBtn:active {
-  transform: translateY(0);
-}
-
 /* ── Mobile Cards (hidden on desktop) ─────────── */
 .mobileList {
   display: none;

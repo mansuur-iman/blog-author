@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "./context/useAuth";
 import { getUser } from "../api/post";
-import { useNavigate, Navigate } from "react-router";
+import { Navigate } from "react-router";
 import styles from "./Dashboard.module.css";
 
 export default function Dashboard() {
@@ -10,7 +10,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
 
   const { token, user } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -64,13 +63,12 @@ export default function Dashboard() {
               <th>Title</th>
               <th>Status</th>
               <th>Date</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {!loading && displayedPosts.length === 0 ? (
               <tr>
-                <td colSpan="4" className={styles.noData}>
+                <td colSpan="3" className={styles.noData}>
                   No posts found.
                 </td>
               </tr>
@@ -96,15 +94,6 @@ export default function Dashboard() {
                       day: "numeric",
                     })}
                   </td>
-                  <td>
-                    <button
-                      type="button"
-                      className={styles.viewBtn}
-                      onClick={() => navigate(`/posts/${post.id}`)}
-                    >
-                      View
-                    </button>
-                  </td>
                 </tr>
               ))
             )}
@@ -129,22 +118,13 @@ export default function Dashboard() {
                   {post.published ? "Published" : "Draft"}
                 </span>
               </div>
-              <div className={styles.mobileCardBottom}>
-                <span className={styles.date}>
-                  {new Date(post.createdAt).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </span>
-                <button
-                  type="button"
-                  className={styles.viewBtn}
-                  onClick={() => navigate(`/posts/${post.id}`)}
-                >
-                  View
-                </button>
-              </div>
+              <p className={styles.date}>
+                {new Date(post.createdAt).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </p>
             </div>
           ))
         )}

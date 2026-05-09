@@ -1,4 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Playwrite+DK+Uloopet+Guides&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -8,7 +11,18 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  font-family: "Pacifico", cursive;
+  font-family: "Cabinet Grotesk", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  line-height: 1.2;
 }
 
 .light {
@@ -43,6 +57,6 @@ html {
 
 body {
   background-color: var(--bg);
-  color: var(--tex);
-  line-height: 1.5;
+  color: var(--text); /* bug fix: was var(--tex) */
+  line-height: 1.6;
 }
