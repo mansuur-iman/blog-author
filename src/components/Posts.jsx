@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useAuth } from "./context/useAuth";
 import { getUser, deletePost, togglePublish, searchPost } from "../api/post";
 import { useNavigate, Navigate } from "react-router";
-import { Plus, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import styles from "./Posts.module.css";
 
 export default function Posts() {
-  const [post, setPost] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,12 +14,14 @@ export default function Posts() {
   const { token, user } = useAuth();
   const navigate = useNavigate();
 
+  if (!token || !user) return <Navigate to="/login" replace />;
+
   const fetchAllPosts = async () => {
     setLoading(true);
+    setError("");
     try {
       const data = await getUser(token);
-      console.log("userData", data);
-      setPost(data.posts || data || []);
+      setPosts(data.posts || data || []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -31,16 +33,13 @@ export default function Posts() {
     if (token) fetchAllPosts();
   }, [token]);
 
-  if (!token || !user) return <Navigate to="/login" replace />;
-
   const handleDelete = async (id) => {
+    if (!window.confirm("Delete this post?")) return;
     try {
       setLoading(true);
-
       await deletePost(id, token);
-      setPost((prev) => prev.filter((p) => p.id !== id));
+      setPosts((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
-      console.error(err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -51,14 +50,12 @@ export default function Posts() {
     try {
       setLoading(true);
       const updated = await togglePublish(id, published, token);
-
-      setPost((prev) =>
+      setPosts((prev) =>
         prev.map((p) =>
           p.id === id ? { ...p, published: updated.post.published } : p,
         ),
       );
     } catch (err) {
-      console.error(err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -73,89 +70,185 @@ export default function Posts() {
     }
     try {
       setLoading(true);
+      setError("");
       const data = await searchPost(searchTerm, token);
-      setPost(data || data.posts || []);
+      // bug fix: was data || data.posts — short-circuits before checking .posts
+      setPosts(data.posts || data || []);
     } catch (err) {
-      console.error(err.message);
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
+  const displayedPosts = posts.slice(0, 15);
+
   return (
     <div className={styles.container}>
       {error && <p className={styles.error}>{error}</p>}
+
       <form onSubmit={handleSearch} className={styles.searchForm}>
-        <Search size={25} />
+        <Search size={18} className={styles.searchIcon} aria-hidden />
         <input
           type="text"
-          placeholder="search post..."
+          placeholder="Search posts..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={styles.searchInput}
-          required
         />
+        {searchTerm && (
+          <button
+            type="button"
+            className={styles.clearBtn}
+            onClick={() => {
+              setSearchTerm("");
+              fetchAllPosts();
+            }}
+            aria-label="Clear search"
+          >
+            ×
+          </button>
+        )}
       </form>
-      {loading && <span className={styles.loading}>Searching...</span>}
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      {loading && <p className={styles.loading}>Loading...</p>}
 
-        <tbody>
-          {!loading && post.length === 0 && (
+      {/* Desktop table */}
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead>
             <tr>
-              <td colSpan="5" style={{ textAlign: "center" }}>
-                No posts found.
-              </td>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Description</th>
+              <th>Date</th>
+              <th>Actions</th>
             </tr>
-          )}
-          {post.slice(0, 15).map((p) => (
-            <tr key={p.id}>
-              <td>{p.title}</td>
-              <td>{p.published ? "Published" : "Draft"}</td>
-              <td>{p.description ? p.description : "NO description"}</td>
-              <td>{new Date(p.createdAt).toLocaleDateString()}</td>
-              <td className={styles.actions}>
+          </thead>
+          <tbody>
+            {!loading && displayedPosts.length === 0 ? (
+              <tr>
+                <td colSpan="5" className={styles.noData}>
+                  No posts found.
+                </td>
+              </tr>
+            ) : (
+              displayedPosts.map((p) => (
+                <tr key={p.id}>
+                  <td className={styles.titleCell}>{p.title}</td>
+                  <td>
+                    <span
+                      className={
+                        p.published ? styles.badgePublished : styles.badgeDraft
+                      }
+                    >
+                      {p.published ? "Published" : "Draft"}
+                    </span>
+                  </td>
+                  <td className={styles.descCell}>
+                    {p.description || (
+                      <span className={styles.noDesc}>No description</span>
+                    )}
+                  </td>
+                  <td className={styles.dateCell}>
+                    {new Date(p.createdAt).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </td>
+                  <td>
+                    <div className={styles.actions}>
+                      <button
+                        className={styles.editBtn}
+                        onClick={() => navigate(`/posts/${p.id}/edit`)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className={styles.toggleBtn}
+                        onClick={() => handleToggle(p.id, p.published)}
+                      >
+                        {p.published ? "Unpublish" : "Publish"}
+                      </button>
+                      <button
+                        className={styles.commentsBtn}
+                        onClick={() => navigate(`/posts/${p.id}/comments`)}
+                      >
+                        Comments
+                      </button>
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={() => handleDelete(p.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile cards */}
+      <div className={styles.mobileList}>
+        {!loading && displayedPosts.length === 0 ? (
+          <p className={styles.noDataMobile}>No posts found.</p>
+        ) : (
+          displayedPosts.map((p) => (
+            <div key={p.id} className={styles.mobileCard}>
+              <div className={styles.mobileCardHeader}>
+                <p className={styles.mobileTitle}>{p.title}</p>
+                <span
+                  className={
+                    p.published ? styles.badgePublished : styles.badgeDraft
+                  }
+                >
+                  {p.published ? "Published" : "Draft"}
+                </span>
+              </div>
+              {p.description && (
+                <p className={styles.mobileDesc}>{p.description}</p>
+              )}
+              <p className={styles.mobileDate}>
+                {new Date(p.createdAt).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </p>
+              <div className={styles.mobileActions}>
                 <button
-                  className={styles.edit}
+                  className={styles.editBtn}
                   onClick={() => navigate(`/posts/${p.id}/edit`)}
                 >
                   Edit
                 </button>
-
                 <button
-                  className={styles.delete}
-                  onClick={() => handleDelete(p.id)}
-                >
-                  Delete
-                </button>
-
-                <button
-                  className={styles.toggle}
+                  className={styles.toggleBtn}
                   onClick={() => handleToggle(p.id, p.published)}
                 >
                   {p.published ? "Unpublish" : "Publish"}
                 </button>
                 <button
-                  className={styles.comments}
+                  className={styles.commentsBtn}
                   onClick={() => navigate(`/posts/${p.id}/comments`)}
                 >
-                  View Comments
+                  Comments
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                <button
+                  className={styles.deleteBtn}
+                  onClick={() => handleDelete(p.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }

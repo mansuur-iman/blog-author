@@ -1,111 +1,241 @@
 .container {
-  padding: 20px;
+  padding: 32px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
+
 .error {
-  color: #ff4d4d;
+  color: var(--danger);
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  padding: 12px 16px;
+  border-radius: 8px;
   font-size: 14px;
 }
 
 .loading {
   font-size: 14px;
-  opacity: 0.7;
+  color: var(--s-text);
 }
-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
 
-  padding: 10px 14px;
-
-  background: var(--accent);
-  color: white;
-
-  border: none;
-  border-radius: 10px;
-
-  font-weight: 600;
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-button:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
+/* ── Stat Cards ────────────────────────────────── */
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 14px;
 }
+
 .card {
-  padding: 15px;
+  padding: 18px;
   border-radius: 12px;
-
-  background: var(--bg);
+  background: var(--s-bg);
   border: 1px solid var(--border);
-
   display: flex;
   flex-direction: column;
   gap: 6px;
-
-  transition: 0.2s ease;
+  transition: transform 0.2s ease;
 }
+
 .card:hover {
   transform: translateY(-3px);
 }
+
 .card h3 {
-  font-size: 14px;
-  opacity: 0.7;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--s-text);
+  font-weight: 600;
   margin: 0;
 }
 
 .card p {
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 700;
+  color: var(--text);
   margin: 0;
 }
+
+/* ── Status Badges ─────────────────────────────── */
+.badgePublished {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(22, 163, 74, 0.12);
+  color: var(--success);
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  white-space: nowrap;
+}
+
+.badgeDraft {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(107, 114, 128, 0.1);
+  color: var(--s-text);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+/* ── Desktop Table ─────────────────────────────── */
 .tableWrapper {
-  background: var(--bg);
+  background: var(--s-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
-
   overflow: hidden;
 }
-table {
+
+.table {
   width: 100%;
   border-collapse: collapse;
-}
-thead {
-  background: var(--s-bg);
+  text-align: left;
 }
 
-th {
-  text-align: left;
-  padding: 12px;
-  font-size: 13px;
-  opacity: 0.7;
+.table thead {
+  background: var(--bg);
 }
-td {
-  padding: 12px;
+
+.table th {
+  padding: 12px 16px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--s-text);
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+}
+
+.table td {
+  padding: 13px 16px;
   border-top: 1px solid var(--border);
   font-size: 14px;
+  color: var(--text);
+  vertical-align: middle;
 }
-tr:hover {
-  background: rgba(0, 0, 0, 0.03);
+
+.table tbody tr:hover {
+  background: var(--bg);
+  transition: background 0.15s;
 }
-td button {
-  padding: 6px 10px;
-  font-size: 12px;
 
-  border-radius: 8px;
-
-  background: transparent;
-  border: 1px solid var(--border);
+.postTitle {
+  font-weight: 500;
   color: var(--text);
 }
-td button:hover {
+
+.date {
+  color: var(--s-text);
+  font-size: 13px;
+}
+
+.noData {
+  text-align: center;
+  padding: 48px 16px !important;
+  color: var(--s-text);
+  font-size: 14px;
+}
+
+/* ── View Button ───────────────────────────────── */
+.viewBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
+
+.viewBtn:hover {
+  background: var(--bg);
+  transform: translateY(-1px);
+}
+
+.viewBtn:active {
+  transform: translateY(0);
+}
+
+/* ── Mobile Cards (hidden on desktop) ─────────── */
+.mobileList {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobileCard {
   background: var(--s-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobileCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.mobileCardBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.noDataMobile {
+  text-align: center;
+  color: var(--s-text);
+  font-size: 14px;
+  padding: 32px 0;
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 640px) {
+  .container {
+    padding: 20px 16px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .card p {
+    font-size: 22px;
+  }
+
+  .tableWrapper {
+    display: none;
+  }
+
+  .mobileList {
+    display: flex;
+  }
+}
+
+@media (max-width: 400px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
 }

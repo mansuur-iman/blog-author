@@ -18,10 +18,8 @@ export default function Comments() {
     const fetchComments = async () => {
       try {
         setLoading(true);
-
         const postData = await getPost(id, token);
         setPost(postData);
-
         const fetchedComments = await getComments(postData.id, token);
         setComments(fetchedComments);
       } catch (err) {
@@ -38,9 +36,7 @@ export default function Comments() {
   const handleDelete = async (commentId) => {
     try {
       setLoading(true);
-
       await deleteComment(commentId, token);
-
       setComments((prev) =>
         prev.filter((c) => c.id !== commentId && c._id !== commentId),
       );
@@ -57,51 +53,87 @@ export default function Comments() {
       {loading && <p className={styles.loading}>Loading...</p>}
       {error && <p className={styles.error}>{error}</p>}
 
-      {post && <h2 className={styles.title}>Comments for "{post.title}"</h2>}
+      {post && (
+        <h2 className={styles.title}>
+          Comments for <span className={styles.postTitle}>"{post.title}"</span>
+        </h2>
+      )}
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Comment</th>
-            <th>Author</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {comments.length === 0 ? (
+      {/* Desktop table */}
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead>
             <tr>
-              <td colSpan="4" className={styles.empty}>
-                No comments yet.
-              </td>
+              <th>Comment</th>
+              <th>Author</th>
+              <th>Date</th>
+              <th className={styles.alignRight}>Actions</th>
             </tr>
-          ) : (
-            comments.map((c) => (
-              <tr key={c.id}>
-                <td>{c.text}</td>
-                <td>{c.author.username}</td>
-                <td>
+          </thead>
+          <tbody>
+            {comments.length === 0 ? (
+              <tr>
+                <td colSpan="4" className={styles.noData}>
+                  No comments yet.
+                </td>
+              </tr>
+            ) : (
+              comments.map((c) => (
+                <tr key={c.id ?? c._id}>
+                  <td className={styles.commentText}>{c.text}</td>
+                  <td className={styles.author}>{c.author.username}</td>
+                  <td>
+                    {new Date(c.createdAt).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </td>
+                  <td className={styles.alignRight}>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(c.id ?? c._id)}
+                      className={styles.deleteBtn}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile cards */}
+      <div className={styles.cardList}>
+        {comments.length === 0 ? (
+          <p className={styles.noDataMobile}>No comments yet.</p>
+        ) : (
+          comments.map((c) => (
+            <div key={c.id ?? c._id} className={styles.card}>
+              <p className={styles.cardText}>{c.text}</p>
+              <div className={styles.cardMeta}>
+                <span className={styles.author}>{c.author.username}</span>
+                <span className={styles.cardDate}>
                   {new Date(c.createdAt).toLocaleDateString(undefined, {
                     year: "numeric",
                     month: "short",
                     day: "numeric",
                   })}
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(c.id)}
-                    className={styles.deleteBtn}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleDelete(c.id ?? c._id)}
+                className={styles.deleteBtn}
+              >
+                Delete
+              </button>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }

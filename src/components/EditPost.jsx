@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import PostForm from "./PostForm";
 import { useAuth } from "./context/useAuth";
 import { updatePost, getPost } from "../api/post";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, Navigate } from "react-router";
+import styles from "./EditPost.module.css";
 
 export default function EditPost() {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const { token, user } = useAuth();
   const { id } = useParams();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export default function EditPost() {
         setPost(data);
       } catch (err) {
         console.error(err);
+        setError("Failed to load post.");
       } finally {
         setLoading(false);
       }
@@ -28,9 +30,10 @@ export default function EditPost() {
     if (token) fetchPost();
   }, [id, token]);
 
-  if (!user || user.role !== "AUTHOR") {
-    return <p>Access denied.</p>;
-  }
+  if (!user || user.role !== "AUTHOR") return <Navigate to="/login" replace />;
+  if (loading) return <p className={styles.status}>Loading post...</p>;
+  if (error) return <p className={styles.error}>{error}</p>;
+  if (!post) return <p className={styles.status}>Post not found.</p>;
 
   const handleUpdate = async (data) => {
     try {
@@ -39,18 +42,16 @@ export default function EditPost() {
       navigate("/posts");
     } catch (err) {
       console.error(err);
+      setError("Failed to update post.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <p>Loading post data...</p>;
-  if (!post) return <p>Post not found.</p>;
-
   return (
-    <>
-      <h2 style={{ textAlign: "center" }}>Edit post</h2>
+    <div className={styles.page}>
+      <h2 className={styles.heading}>Edit post</h2>
       <PostForm initialData={post} onSubmit={handleUpdate} loading={loading} />
-    </>
+    </div>
   );
 }

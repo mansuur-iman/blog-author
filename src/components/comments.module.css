@@ -4,17 +4,11 @@
   margin: 0 auto;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
 .title {
   font-size: 22px;
   color: var(--text);
   font-weight: 600;
+  margin-bottom: 24px;
 }
 
 .postTitle {
@@ -25,17 +19,20 @@
 .loading {
   font-size: 14px;
   color: var(--s-text);
+  margin-bottom: 16px;
 }
 
 .error {
   color: var(--danger);
-  background: rgba(255, 0, 0, 0.1);
-  padding: 12px;
+  background: rgba(220, 38, 38, 0.08);
+  padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 20px;
+  font-size: 14px;
+  border: 1px solid rgba(220, 38, 38, 0.2);
 }
 
-/* Table Design */
+/* ── Desktop Table ─────────────────────────────── */
 .tableWrapper {
   background: var(--s-bg);
   border: 1px solid var(--border);
@@ -51,63 +48,131 @@
 }
 
 .table th {
-  padding: 16px;
+  padding: 14px 16px;
   background: var(--bg);
   color: var(--s-text);
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.07em;
   font-weight: 700;
+  border-bottom: 1px solid var(--border);
 }
 
 .table td {
-  padding: 16px;
+  padding: 14px 16px;
   border-top: 1px solid var(--border);
   font-size: 14px;
   color: var(--text);
   vertical-align: middle;
 }
 
+.table tbody tr:hover {
+  background: var(--bg);
+  transition: background 0.15s;
+}
+
 .commentText {
   max-width: 400px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .author {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--accent);
 }
 
 .noData {
   text-align: center;
-  padding: 40px !important;
+  padding: 48px 16px !important;
   color: var(--s-text);
+  font-size: 14px;
 }
 
-/* Actions */
 .alignRight {
   text-align: right;
 }
 
+/* ── Delete Button ─────────────────────────────── */
 .deleteBtn {
   background: var(--danger);
-  color: white;
+  color: #fff;
   border: none;
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: inherit;
   transition:
-    transform 0.1s,
-    opacity 0.2s;
+    opacity 0.2s,
+    transform 0.1s;
 }
 
 .deleteBtn:hover {
-  opacity: 0.9;
+  opacity: 0.88;
   transform: translateY(-1px);
 }
 
 .deleteBtn:active {
   transform: translateY(0);
+}
+
+.cardList {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  background: var(--s-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.cardText {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.cardMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.cardDate {
+  color: var(--s-text);
+  font-size: 12px;
+}
+
+.noDataMobile {
+  text-align: center;
+  color: var(--s-text);
+  font-size: 14px;
+  padding: 32px 0;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 24px 16px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .tableWrapper {
+    display: none;
+  }
+
+  .cardList {
+    display: flex;
+  }
 }

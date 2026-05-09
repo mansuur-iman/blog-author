@@ -1,92 +1,151 @@
 .toolbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 60px;
   background: var(--s-bg);
-  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  gap: 12px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* Hamburger — hidden on desktop */
+.menuBtn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.menuBtn:hover {
+  background: var(--bg);
 }
 
 .userInfo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
-  background-color: var(--accent); /* Modern Indigo */
-  color: white;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-weight: bold;
-  font-size: 1.1rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.userText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
 }
 
 .greeting {
-  margin: 0;
-  font-size: 1.25rem;
-  color: var(--text);
+  font-size: 14px;
   font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .roleBadge {
-  font-size: 0.75rem;
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: var(--bg);
-  color: var(--s-text);
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  opacity: 0.8;
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .createBtn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background-color: var(--accent); /* Success Green */
-  color: white;
-  border: none;
-  padding: 8px 16px;
+  gap: 6px;
+  padding: 7px 14px;
   border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s ease;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
+  white-space: nowrap;
 }
 
 .createBtn:hover {
-  background-color: var(--accent--hover);
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.createBtn:active {
+  transform: translateY(0);
 }
 
 .logoutBtn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--s-text);
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  transition: all 0.2s ease;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--s-text);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  flex-shrink: 0;
 }
 
 .logoutBtn:hover {
-  background-color: var(--danger); /* Light red */
-  color: white;
-  border-color: var(--s-text);
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.3);
+  color: var(--danger);
+}
+
+@media (max-width: 768px) {
+  .menuBtn {
+    display: flex;
+  }
+
+  /* Hide username text on very small screens, keep avatar */
+  @media (max-width: 360px) {
+    .userText {
+      display: none;
+    }
+  }
 }

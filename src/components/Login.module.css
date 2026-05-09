@@ -1,88 +1,302 @@
-.container {
+/* ── Page shell ────────────────────────────────── */
+.page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* ── Left decorative panel ─────────────────────── */
+.panel {
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 255, 255, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.15) 0%, transparent 55%);
+}
+
+.panelInner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: white;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  text-align: center;
+  gap: 12px;
 }
-.card {
+
+.panelIcon {
+  font-size: 36px;
+  opacity: 0.9;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.panelTitle {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.panelSub {
+  font-size: 15px;
+  opacity: 0.75;
+  margin: 0;
+}
+
+.panelDots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 24px;
+  opacity: 0.25;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+/* ── Right form side ───────────────────────────── */
+.formSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.formCard {
   width: 100%;
-  max-width: 400px;
-
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-
-  padding: 25px;
-
+  max-width: 380px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  gap: 28px;
 }
+
+/* ── Form header ───────────────────────────────── */
+.formHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
+  color: var(--text);
   margin: 0;
+  letter-spacing: -0.4px;
 }
 
 .subtitle {
   font-size: 14px;
-  opacity: 0.7;
+  color: var(--s-text);
   margin: 0;
 }
-.error {
-  color: #ff4d4d;
-  font-size: 13px;
-  margin: 4px 0 0;
+
+/* ── API error banner ──────────────────────────── */
+.apiError {
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  color: var(--danger);
+  border-radius: 9px;
+  padding: 11px 14px;
+  font-size: 14px;
+  animation: slideDown 0.2s ease;
 }
-.inputGroup {
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Form ──────────────────────────────────────── */
+.form {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  text-align: left;
+  gap: 18px;
 }
-.inputGroup p {
-  margin: 4px 0 0 0;
-  font-size: 0.85rem;
-  color: red;
-}
-input {
-  padding: 12px 14px;
 
-  border-radius: 10px;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--s-text);
+}
+
+.input {
+  width: 100%;
+  padding: 11px 14px;
   border: 1px solid var(--border);
-
-  background: transparent;
+  border-radius: 10px;
+  background: var(--s-bg);
   color: var(--text);
-
   font-size: 14px;
-
+  font-family: inherit;
   outline: none;
-  transition: 0.2s ease;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
-input:focus {
+
+.input::placeholder {
+  color: var(--s-text);
+  opacity: 0.5;
+}
+
+.input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
-button {
-  padding: 12px 14px;
 
-  background: var(--accent);
-  color: white;
+.input.inputError {
+  border-color: var(--danger);
+}
 
+.input.inputError:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.fieldError {
+  font-size: 12px;
+  color: var(--danger);
+  margin: 0;
+}
+
+/* ── Password toggle ───────────────────────────── */
+.passwordWrapper {
+  position: relative;
+}
+
+.passwordWrapper .input {
+  padding-right: 42px;
+}
+
+.eyeBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--s-text);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.eyeBtn:hover {
+  color: var(--text);
+}
+
+/* ── Submit button ─────────────────────────────── */
+.submitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
   border: none;
   border-radius: 10px;
-
-  font-weight: 600;
-  font-size: 14px;
-
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
   cursor: pointer;
-  transition: 0.2s ease;
+  width: 100%;
+  margin-top: 4px;
+  transition:
+    opacity 0.2s,
+    transform 0.15s;
 }
-button:hover {
-  transform: translateY(-2px);
+
+.submitBtn:hover:not(:disabled) {
   opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Spinner ───────────────────────────────────── */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 640px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    display: none;
+  }
+
+  .formSide {
+    padding: 48px 20px;
+  }
 }

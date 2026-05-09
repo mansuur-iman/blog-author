@@ -1,49 +1,81 @@
-import { useNavigate } from "react-router";
-import { LayoutDashboard, StickyNote, Moon, Sun, Settings } from "lucide-react";
+import { useNavigate, useLocation } from "react-router";
+import {
+  LayoutDashboard,
+  StickyNote,
+  Settings,
+  Moon,
+  Sun,
+  X,
+} from "lucide-react";
 import styles from "./Sidebar.module.css";
-import { useLocation } from "react-router";
 import useTheme from "./context/useTheme";
-export default function Sidebar({ className }) {
+
+const links = [
+  { name: "Dashboard", icon: LayoutDashboard, path: "/" },
+  { name: "Posts", icon: StickyNote, path: "/posts" },
+  { name: "Settings", icon: Settings, path: "/settings" },
+];
+
+export default function Sidebar({ className, drawerOpen, onClose }) {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { theme, toggleTheme } = useTheme();
 
-  const links = [
-    {
-      name: "Dashboard",
-      icon: <LayoutDashboard />,
-      path: "/",
-    },
-    {
-      name: "Posts",
-      icon: <StickyNote />,
-      path: "/posts",
-    },
+  const handleNav = (path) => {
+    navigate(path);
+    onClose?.();
+  };
 
-    {
-      name: "Settings",
-      icon: <Settings />,
-      path: "/settings",
-    },
-  ];
   return (
-    <div className={className}>
-      {links.map((link) => (
+    <aside
+      className={`${styles.sidebar} ${drawerOpen ? styles.open : ""} ${className ?? ""}`}
+    >
+      {/* Brand */}
+      <div className={styles.brand}>
+        <span className={styles.brandIcon}>✦</span>
+        <span className={styles.brandName}>Blog.author</span>
         <button
-          key={link.name}
           type="button"
-          onClick={() => navigate(link.path)}
-          className={location.pathname === link.path ? styles.active : ""}
+          className={styles.closeBtn}
+          onClick={onClose}
+          aria-label="Close menu"
         >
-          {link.icon}
-          {link.name}
+          <X size={18} />
         </button>
-      ))}
+      </div>
 
-      <button type="button" onClick={toggleTheme}>
-        {theme === "light" ? <Moon /> : <Sun />}
-      </button>
-    </div>
+      {/* Nav */}
+      <nav className={styles.nav}>
+        {links.map(({ name, icon: Icon, path }) => {
+          const active = location.pathname === path;
+          return (
+            <button
+              key={name}
+              type="button"
+              onClick={() => handleNav(path)}
+              className={`${styles.navBtn} ${active ? styles.active : ""}`}
+              aria-current={active ? "page" : undefined}
+            >
+              <Icon size={18} className={styles.navIcon} />
+              <span>{name}</span>
+              {active && <span className={styles.activePill} aria-hidden />}
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* Bottom controls */}
+      <div className={styles.bottom}>
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className={styles.themeBtn}
+          aria-label="Toggle theme"
+        >
+          {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+          <span>{theme === "light" ? "Dark mode" : "Light mode"}</span>
+        </button>
+      </div>
+    </aside>
   );
 }

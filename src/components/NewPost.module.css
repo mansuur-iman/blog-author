@@ -1,0 +1,18 @@
+.page {
+  padding: 32px 20px;
+}
+
+.heading {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.error {
+  text-align: center;
+  color: var(--danger);
+  font-size: 14px;
+  margin-bottom: 8px;
+}

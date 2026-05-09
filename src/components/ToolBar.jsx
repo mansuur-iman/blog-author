@@ -1,51 +1,65 @@
 import { useAuth } from "./context/useAuth";
-import { User, LogOut, Plus } from "lucide-react";
+import { LogOut, Plus, Menu } from "lucide-react";
 import { useNavigate } from "react-router";
 import styles from "./ToolBar.module.css";
 
-export default function ToolBar({ className }) {
-  const { user, logout } = useAuth(); // Assuming you have a logout function in context
+export default function ToolBar({ className, onMenuToggle }) {
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
+  const initials = user.username?.charAt(0).toUpperCase() ?? "?";
+
   return (
-    <div className={`${className} ${styles.toolbar}`}>
-      <div className={styles.userInfo}>
-        <div className={styles.avatar}>
-          {user.username.charAt(0).toUpperCase()}
-        </div>
-        <div>
-          <h2 className={styles.greeting}>Hello, {user.username}</h2>
-          <span className={styles.roleBadge}>{user.role}</span>
+    <header className={`${className ?? ""} ${styles.toolbar}`}>
+      <div className={styles.left}>
+        {/* Hamburger — mobile only */}
+        <button
+          type="button"
+          className={styles.menuBtn}
+          onClick={onMenuToggle}
+          aria-label="Open navigation"
+        >
+          <Menu size={20} />
+        </button>
+
+        <div className={styles.userInfo}>
+          <div className={styles.avatar}>{initials}</div>
+          <div className={styles.userText}>
+            <span className={styles.greeting}>Hello, {user.username}</span>
+            <span className={styles.roleBadge}>{user.role}</span>
+          </div>
         </div>
       </div>
 
       <div className={styles.actions}>
         {user.role === "AUTHOR" && (
           <button
+            type="button"
             onClick={() => navigate("/posts/new")}
             className={styles.createBtn}
           >
-            <Plus size={18} /> New Post
+            <Plus size={16} />
+            <span>New Post</span>
           </button>
         )}
 
         <button
+          type="button"
           onClick={handleLogout}
           className={styles.logoutBtn}
-          title="Sign Out"
+          title="Sign out"
+          aria-label="Sign out"
         >
-          <LogOut size={20} />
+          <LogOut size={18} />
         </button>
       </div>
-    </div>
+    </header>
   );
 }
